@@ -1,0 +1,129 @@
+- model: core.AbstractAccount
+  pk: 2000
+  fields:
+    name: 'Salary'
+    balance: 0
+    wealth: 3
+
+- model: core.Category
+  pk: 2000
+  fields:
+    abstractaccount_ptr: 2000
+    type: 1 # income
+    full_name: 'Salary'
+    total_balance: 0
+    description: 'My regular salary'
+
+- model: core.AbstractAccount
+  pk: 2001
+  fields:
+    name: 'Gifts'
+    balance: 0
+    wealth: 3
+
+- model: core.Category
+  pk: 2001
+  fields:
+    abstractaccount_ptr: 2001
+    full_name: 'Gifts'
+    type: 1 # income
+    total_balance: 0
+    description: 'Gifts I receive from strangers'
+
+- model: core.AbstractAccount
+  pk: 2002
+  fields:
+    name: 'Crime'
+    balance: 0
+    wealth: 3
+
+- model: core.Category
+  pk: 2002
+  fields:
+    full_name: 'Salary:Crime'
+    abstractaccount_ptr: 2002
+    type: 1 # income
+    parent: 2000
+    total_balance: 0
+    description: 'Money I get from crime'
+
+- model: core.AbstractAccount
+  pk: 2003
+  fields:
+    name: 'Girls'
+    balance: 0
+    wealth: 3
+
+- model: core.Category
+  pk: 2003
+  fields:
+    full_name: 'Girls'
+    abstractaccount_ptr: 2003
+    type: 2 # expense
+    total_balance: 0
+    description: 'Money I spend on love'
+
+- model: core.AbstractAccount
+  pk: 2006
+  fields:
+    name: 'Crimeless'
+    balance: 0
+    wealth: 3
+
+- model: core.Category
+  pk: 2006
+  fields:
+    abstractaccount_ptr: 2006
+    full_name: 'Salary:Crimeless'
+    type: 1 # income
+    parent: 2000
+    total_balance: 0
+    description: 'Money I get for doing good things'
+
+- model: core.AbstractAccount
+  pk: 2004
+  fields:
+    name: 'Drinks'
+    balance: 0
+    wealth: 3
+
+- model: core.Category
+  pk: 2004
+  fields:
+    full_name: 'Drinks'
+    abstractaccount_ptr: 2004
+    type: 2 # expense
+    total_balance: 0
+    description: 'Drinks and gas'
+
+- model: core.AbstractAccount
+  pk: 2005
+  fields:
+    name: 'Donations'
+    balance: 0
+    wealth: 6
+
+- model: core.Category
+  pk: 2005
+  fields:
+    full_name: 'Donations'
+    abstractaccount_ptr: 2005
+    type: 2 # expense
+    total_balance: 0
+    description: 'Donations for the better'
+
+- model: core.AbstractAccount
+  pk: 2007
+  fields:
+    name: 'Guns'
+    balance: 0
+    wealth: 3
+
+- model: core.Category
+  pk: 2007
+  fields:
+    full_name: 'Guns'
+    abstractaccount_ptr: 2007
+    type: 2 # expense
+    total_balance: 0
+    description: 'Guns and roses'

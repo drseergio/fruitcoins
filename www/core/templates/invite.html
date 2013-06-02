@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Join fruitcoins{% endblock %}
+
+{% block extra-js %}
+    <script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>{% endblock %}
+
+{% block head-js %}
+      var controllers = [];
+      function startMoneypit() {
+        function loginHandler() {
+          location.href = '/user/login';
+        }
+
+        function inviteHandler() {
+          var form = Ext.getCmp('invite-form').getForm();
+          var window = Ext.getCmp('invite');
+          if (form.isValid()) {
+            window.body.mask();
+          }
+          form.submit({
+            success: function() {
+              location.href = '/';
+            },
+            failure: function() {
+              window.body.unmask();
+            }
+          });
+        }
+
+        var window = Ext.create('Ext.Window', {
+          id       : 'invite',
+          layout   : 'border',
+          closable : false,
+          draggable: false,
+          resizable: false,{% if captcha %}
+          width    : 330,
+          height   : 240,{% else %}
+          width    : 200,
+          height   : 110,{% endif %}
+          plain    : true,
+          border   : false,
+          items    : [{
+              region : 'north',
+              html   : '<span style="margin-top: 5px; padding: 5px; font-size: 1.2em; font-family: \'Droid Sans\'">Request membership</span>',
+              border : false,
+              height : 30,
+            }, {
+              id           : 'invite-form',
+              url          : '/api/user/invite',
+              xtype        : 'form',
+              region       : 'center',
+              border       : false,
+              buttonAlign  : 'right',
+
+              fieldDefaults: {
+                msgTarget : 'side',
+                labelWidth: 95,
+                labelAlign: 'right'
+              },
+              defaults     : {
+                anchor: '100%'
+              },
+
+              items        : [{
+                  id        : 'invite-form-email',
+                  xtype     : 'textfield',
+                  vtype     : 'email',
+                  emptyText : 'e-mail address..',
+                  name      : 'email',
+                  allowBlank: false,
+                  listeners : {
+                    specialkey: function(field, e) {
+                      if (e.getKey() == e.ENTER) {
+                        inviteHandler();
+                      }
+                    }
+                 }
+{% if captcha %}}, {
+                  name: 'recaptcha_response_field',
+                  xtype: 'recaptchafield',
+                  code: '6LfRicsSAAAAAPEfTfw0TDqGTrrW4V64TRLbGS8e',
+                  allowBlank: false,
+                  listeners : {
+                    specialkey: function(field, e) {
+                      if (e.getKey() == e.ENTER) {
+                        inviteHandler();
+                      }
+                    }
+                  }
+                }, {
+                  name: 'recaptcha_challenge_field',
+                  fieldLabel: 'recaptcha_challenge_field',
+                  xtype: 'recaptchachallengefield',
+                  allowBlank: false,
+                  listeners : {
+                    specialkey: function(field, e) {
+                      if (e.getKey() == e.ENTER) {
+                        inviteHandler();
+                      }
+                    }
+                  }{% endif %}
+              }],
+
+              buttons      : [{
+                  text   : 'Save',
+                  margin : '8 2 0 0',
+                  handler: inviteHandler
+                }, {
+                  text   : 'Back',
+                  margin : '8 6 0 0',
+                  handler: loginHandler
+              }],
+          }]
+        });
+
+        Ext.getCmp('invite-form-email').focus(false, 800);
+        window.show();
+      }{% endblock %}
+
+{% block body %}{% csrf_token %}{% endblock %}

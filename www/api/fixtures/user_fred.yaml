@@ -1,0 +1,30 @@
+- model: fx.Currency
+  pk: 1
+  fields:
+    symbol: CHF
+    name: Swiss money
+    code: CHF
+    unit: '100'
+
+- model: fx.Currency
+  pk: 2
+  fields:
+    symbol: XXX
+    name: Sex money
+    code: XXX
+    unit: '100'
+
+- model: auth.user
+  pk: 2
+  fields:
+    first_name: Fred
+    last_name: Pomidorov
+    username: fred
+    password: 'sha1$19417$cef3369df9fa54e08f9b2a12ad7f329f46396024'
+
+- model: core.Wealth
+  pk: 3
+  fields:
+    currency: 1
+    user: 2
+    balance: 0

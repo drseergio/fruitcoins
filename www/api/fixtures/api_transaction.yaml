@@ -1,0 +1,57 @@
+- model: core.Transaction
+  pk: 80
+  fields:
+    date: 2010-12-31
+    description: My first salary
+    wealth: 3
+    type: 2  # deposit
+
+- model: core.AccountSplit
+  pk: 90
+  fields:
+    date: 2010-12-31
+    amount: 500
+    local_amount: 500
+    wealth: 3
+    account: 1000
+    transaction: 80
+    type: 2  # deposit
+
+- model: core.CategorySplit
+  pk: 91
+  fields:
+    date: 2010-12-31
+    amount: -500
+    wealth: 3
+    category: 2000
+    transaction: 80
+    type: 2  # deposit
+
+- model: core.Transaction
+  pk: 81
+  fields:
+    date: 2010-12-31
+    description: Donated towards New World Order
+    wealth: 6
+    type: 1  # deposit
+
+- model: core.AccountSplit
+  pk: 92
+  fields:
+    date: 2010-12-31
+    amount: 123
+    local_amount: 123
+    wealth: 6
+    account: 1005
+    transaction: 81
+    type: 1  # withdrawal
+
+- model: core.CategorySplit
+  pk: 93
+  fields:
+    date: 2010-12-31
+    amount: -123
+    wealth: 6
+    category: 2005
+    transaction: 81
+    type: 1  # withdrawal

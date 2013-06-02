@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>fruitcoins mobile</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
+    <link rel="stylesheet" type="text/css" href="touch/sencha-touch.css">
+    <link rel="stylesheet" type="text/css" href="resources/css/moneypit-mobile.css">
+    <link rel="stylesheet" type="text/css" href="touch/touch-charts-full.css">
+    <link rel="stylesheet" type="text/css" href="resources/css/moneypit-mobile.css">
+    <script type="text/javascript" charset="utf-8" src="phonegap-1.3.0.js"></script>
+    <script type="text/javascript" charset="utf-8" src="ChildBrowser.js"></script>
+    <script type="text/javascript" src="touch/sencha-touch.js"></script>
+    <script type="text/javascript" src="touch/touch-charts.js"></script>
+    <script type="text/javascript">
+      var fruitcoinsUrl = 'http://alabama-wlan.bethania:8000/';
+      
+      var CookiePlugin = {
+        nativeFunction: function() {
+          return PhoneGap.exec(
+            function(result) {},
+              function(error) {},
+              "EmptyCookie",
+              "deleteCookies",
+              []);
+        }
+      };
+      var BrowserPlugin;
+      
+      Ext.regApplication({
+        name  : 'MoneypitMobile',
+        launch: function() {
+          this.launched = true;
+          this.mainLaunch();
+        },
+        mainLaunch: function() {
+          if (!device || !this.launched) {return;}
+          var me = this;
+          BrowserPlugin = ChildBrowser.install();
+          
+          if (navigator.network.connection.type == Connection.NONE) {
+            alert('No connection is available');
+            CookiePlugin.nativeFunction();
+          }
+          
+          this.viewport = new Ext.Panel({
+            fullscreen: true,
+            layout: 'card',
+            cardSwitchAnimation: 'slide',
+            dockedItems: [{
+              xtype: 'TabBarMvc',
+              id: 'tab-bar-mvc',
+              hidden: 'true',
+              items: [{
+                  text: 'Accounts',
+                  iconCls: 'list',
+                  route: 'Account/index'
+                }, {
+                  text: 'Reports',
+                  iconCls: 'chart1',
+                  route: 'Period/index'
+                }, {
+                  text: 'Receipts',
+                  iconCls: 'card1',
+                  route: 'Receipt/index'
+                }, {
+                  text: 'Logout',
+                  iconCls: 'lock_open',
+                  route: 'User/logout'
+                }]
+              }]
+          });
+          
+          Ext.Ajax.request({
+            url: fruitcoinsUrl + 'api/wealth',
+            method: 'GET',
+            success: function() {
+              var tabbar = Ext.getCmp('tab-bar-mvc');
+              tabbar.show();
+              me.viewport.componentLayout.childrenChanged = true;
+              me.viewport.doComponentLayout();
+              Ext.dispatch({
+                controller: 'Account',
+                action: 'index'
+              });
+            },
+            failure: function() {
+              Ext.dispatch({
+                controller: 'User',
+                action: 'login'
+              });
+            }
+          });
+        }
+      });
+      document.addEventListener("deviceready", MoneypitMobile.mainLaunch, false);
+    </script>
+    <script type="text/javascript" src="mobile-js/view/TabBarMvc.js"></script>
+    <script type="text/javascript" src="mobile-js/view/account/List.js"></script>
+    <script type="text/javascript" src="mobile-js/view/report/NetWorth.js"></script>
+    <script type="text/javascript" src="mobile-js/view/report/NetIncome.js"></script>
+    <script type="text/javascript" src="mobile-js/view/report/Expenses.js"></script>
+    <script type="text/javascript" src="mobile-js/view/report/ExpenseBreakdown.js"></script>
+    <script type="text/javascript" src="mobile-js/view/report/Incomes.js"></script>
+    <script type="text/javascript" src="mobile-js/view/report/IncomeBreakdown.js"></script>
+    <script type="text/javascript" src="mobile-js/view/report/Period.js"></script>
+    <script type="text/javascript" src="mobile-js/view/receipt/Receipt.js"></script>
+    <script type="text/javascript" src="mobile-js/view/transaction/List.js"></script>
+    <script type="text/javascript" src="mobile-js/view/user/Login.js"></script>
+    <script type="text/javascript" src="mobile-js/model/Account.js"></script>
+    <script type="text/javascript" src="mobile-js/model/NetWorth.js"></script>
+    <script type="text/javascript" src="mobile-js/model/Expenses.js"></script>
+    <script type="text/javascript" src="mobile-js/model/ExpenseBreakdown.js"></script>
+    <script type="text/javascript" src="mobile-js/model/Incomes.js"></script>
+    <script type="text/javascript" src="mobile-js/model/IncomeBreakdown.js"></script>
+    <script type="text/javascript" src="mobile-js/model/NetIncome.js"></script>
+    <script type="text/javascript" src="mobile-js/model/Transaction.js"></script>
+    <script type="text/javascript" src="mobile-js/store/Account.js"></script>
+    <script type="text/javascript" src="mobile-js/store/NetWorth.js"></script>
+    <script type="text/javascript" src="mobile-js/store/Expenses.js"></script>
+    <script type="text/javascript" src="mobile-js/store/ExpenseBreakdown.js"></script>
+    <script type="text/javascript" src="mobile-js/store/Incomes.js"></script>
+    <script type="text/javascript" src="mobile-js/store/IncomeBreakdown.js"></script>
+    <script type="text/javascript" src="mobile-js/store/NetIncome.js"></script>
+    <script type="text/javascript" src="mobile-js/store/Transaction.js"></script>
+    <script type="text/javascript" src="mobile-js/controller/Account.js"></script>
+    <script type="text/javascript" src="mobile-js/controller/NetWorth.js"></script>
+    <script type="text/javascript" src="mobile-js/controller/NetIncome.js"></script>
+    <script type="text/javascript" src="mobile-js/controller/Expenses.js"></script>
+    <script type="text/javascript" src="mobile-js/controller/ExpenseBreakdown.js"></script>
+    <script type="text/javascript" src="mobile-js/controller/Incomes.js"></script>
+    <script type="text/javascript" src="mobile-js/controller/IncomeBreakdown.js"></script>
+    <script type="text/javascript" src="mobile-js/controller/Period.js"></script>
+    <script type="text/javascript" src="mobile-js/controller/Receipt.js"></script>
+    <script type="text/javascript" src="mobile-js/controller/User.js"></script>
+    <script type="text/javascript" src="mobile-js/controller/Transaction.js"></script>
+    <script type="text/javascript" src="mobile-js/controller/User.js"></script>
+    <script type="text/javascript" src="mobile-js/routes.js"></script>
+  </head>
+
+  <body>
+  </body>
+</html>

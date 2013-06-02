@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Join fruitcoins{% endblock %}
+
+{% block extra-js %}
+    <script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>{% endblock %}
+
+{% block head-js %}
+      var controllers = [ 'Currency' ];
+      var currency = {{ currency }};
+      function startMoneypit() {
+        function loginHandler() {
+          location.href = '/user/login';
+        }
+
+        function registerHandler() {
+          var form = Ext.getCmp('register.form').getForm();
+          var window = Ext.getCmp('register');
+          if (form.isValid()) {
+            window.body.mask();
+          }
+          form.submit({
+            success: function() {
+              location.href = '/';
+            },
+            failure: function() {
+              window.body.unmask();
+            }
+          });
+        }
+
+        var window = Ext.create('Ext.Window', {
+          id       : 'register',
+          layout   : 'border',
+          closable : false,
+          draggable: false,
+          resizable: false,
+          width    : 370,{% if captcha %}
+          height   : 360,{% else %}
+          height   : 230,{% endif %}
+          plain    : true,
+          border   : false,
+          items    : [{
+              region : 'north',
+              html   : '<span style="margin-top: 5px; padding: 5px; font-size: 1.2em; font-family: \'Droid Sans\'">Create a new account</span>',
+              border : false,
+              width  : 415,
+              height : 30,
+            }, {
+              id           : 'register.form',
+              url          : '/api/user/register',
+              xtype        : 'form',
+              region       : 'center',
+              width        : 245,
+              border       : false,
+              bodyCls      : 'register-form',
+              buttonAlign  : 'right',
+
+              fieldDefaults: {
+                msgTarget : 'side',
+                labelWidth: 95,
+                labelAlign: 'right'
+              },
+              defaults     : {
+                anchor: '100%'
+              },
+
+              items        : [{
+                  id        : 'register-form-username',
+                  xtype     : 'textfield',
+                  fieldLabel: 'username',
+                  name      : 'username',
+                  allowBlank: false,
+                  labelSeparator: '',
+                  labelAlign: 'right',
+                }, {
+                  xtype        : 'fxcombobox',
+                  fieldLabel   : 'main currency',
+                  name         : 'currency',
+                  anchor       : '95%',
+                  valueField   : 'id',
+                  displayField : 'name',
+                  triggerAction: 'all',
+                  hiddenName   : 'currency',
+                  editable     : false,
+                  labelSeparator: '',
+                  labelAlign   : 'right',
+                  allowBlank   : false,
+                  value        : currency
+                }, {
+                  xtype     : 'textfield',
+                  fieldLabel: 'password',
+                  inputType : 'password',
+                  name      : 'password1',
+                  allowBlank: false,
+                  labelSeparator: '',
+                  labelAlign: 'right',
+                }, {
+                  xtype     : 'textfield',
+                  fieldLabel: 'repeat',
+                  inputType : 'password',
+                  name      : 'password2',
+                  allowBlank: false,
+                  labelSeparator: '',
+                  labelAlign: 'right',
+                  validator : function(value) {
+                    var password1 = this.previousSibling('[name=password1]');
+                    return (value === password1.getValue()) ? true : 'Passwords do not match.'
+                  },
+               }, {
+                  xtype     : 'textfield',
+                  vtype     : 'email',
+                  fieldLabel: 'e-mail (optional)',
+                  name      : 'email',
+                  labelSeparator: '',
+                  labelAlign: 'right',
+{% if captcha %}}, {
+                  name: 'recaptcha_response_field',
+                  xtype: 'recaptchafield',
+                  code: '6LfRicsSAAAAAPEfTfw0TDqGTrrW4V64TRLbGS8e',
+                  allowBlank: false,
+                  listeners : {
+                    specialkey: function(field, e) {
+                      if (e.getKey() == e.ENTER) {
+                        registerHandler();
+                      }
+                    }
+                  }
+                }, {
+                  name: 'recaptcha_challenge_field',
+                  fieldLabel: 'recaptcha_challenge_field',
+                  xtype: 'recaptchachallengefield',
+                  allowBlank: false,
+                  listeners : {
+                    specialkey: function(field, e) {
+                      if (e.getKey() == e.ENTER) {
+                        registerHandler();
+                      }
+                    }
+                  }{% endif %}
+              }],
+
+              buttons      : [{
+                  text   : 'Continue',
+                  margin : '8 2 0 0',
+	              handler: registerHandler
+                }, {
+                  text   : 'Back',
+                  margin : '8 6 0 0',
+                  handler: loginHandler
+              }],
+          }]
+        });
+
+        Ext.getCmp('register-form-username').focus(false, 800);
+        window.show();
+      }{% endblock %}
+
+{% block body %}{% csrf_token %}{% endblock %}

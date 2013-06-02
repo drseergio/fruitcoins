@@ -1,0 +1,23 @@
+{% extends "mobile-base.html" %}
+{% load static %}
+{% block title %}fruitcoins{% endblock %}
+
+{% block css %}<link rel="stylesheet" type="text/css" href="{% get_static_prefix %}resources/css/moneypit-mobile.css">{% endblock %}
+
+{% block extra-js %}
+    {% if debug %}<script type="text/javascript" src="{% get_static_prefix %}mobile-js/view/user/Login.js"></script>
+    <script type="text/javascript" src="{% get_static_prefix %}mobile-js/controller/User.js"></script>
+    <script type="text/javascript" src="{% get_static_prefix %}mobile-js/routes.js"></script>{% else %}<script type="text/javascript" src="{% get_static_prefix %}mobile-js/app-all.js"></script>{% endif %}{% endblock %}
+
+{% block head-js %}
+      Ext.regApplication({
+        name  : 'MoneypitMobile',
+        defaultUrl: 'User/login',
+        launch: function() {
+          this.viewport = new Ext.Panel({
+            fullscreen: true,
+            layout: 'card',
+            cardSwitchAnimation: 'slide',
+          });
+        }
+    });{% endblock %}

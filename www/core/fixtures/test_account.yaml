@@ -1,0 +1,258 @@
+- model: core.Wealth
+  pk: 1
+  fields:
+    currency: 139
+    balance: 733
+    user: 1
+
+- model: core.AbstractAccount
+  pk: 1
+  fields:
+    name: Checking account
+    balance: 313
+    wealth: 1
+
+- model: core.Account
+  pk: 1
+  fields:
+    abstractaccount_ptr: 1
+    opening_balance: 0
+    type: 2  # checking account
+    opened_date: 2010-10-12
+    modified_date: 2011-11-11
+    total_deposits: 500
+    total_withdrawals: 67
+    currency: 139
+    is_visible: True
+
+- model: core.CheckingAccount
+  pk: 1
+  fields:
+    account_ptr: 1
+
+- model: core.AbstractAccount
+  pk: 2
+  fields:
+    name: Savings account
+    balance: 220
+    wealth: 1
+
+- model: core.Account
+  pk: 2
+  fields:
+    abstractaccount_ptr: 2
+    opening_balance: 200
+    opened_date: 2011-1-1
+    modified_date: 2011-11-11
+    total_deposits: 100
+    total_withdrawals: 0
+    currency: 139
+    type: 1  # saving
+    is_visible: True
+
+- model: core.SavingsAccount
+  pk: 2
+  fields:
+    account_ptr: 2
+
+- model: core.AbstractAccount
+  pk: 3
+  fields:
+    name: Salary
+    balance: -500
+    wealth: 1
+
+- model: core.Category
+  pk: 3
+  fields:
+    abstractaccount_ptr: 3
+    type: 1
+    description: My main income
+    full_name: Salary
+    total_balance: -100
+
+- model: core.AbstractAccount
+  pk: 4
+  fields:
+    name: Bonus
+    balance: -100
+    wealth: 1
+
+- model: core.Category
+  pk: 4
+  fields:
+    abstractaccount_ptr: 4
+    type: 1
+    description: Work bonuses
+    full_name: Salary:Bonus
+    parent: 3
+    total_balance: 0
+
+- model: core.AbstractAccount
+  pk: 5
+  fields:
+    name: Food
+    balance: 67
+    wealth: 1
+
+- model: core.Category
+  pk: 5
+  fields:
+    abstractaccount_ptr: 5
+    type: 2
+    description: What I eat
+    full_name: Food
+    total_balance: 0
+
+- model: core.AbstractAccount
+  pk: 6
+  fields:
+    name: Life
+    balance: 0
+    wealth: 1
+
+- model: core.Tag
+  pk: 1
+  fields:
+    created_date: 2010-12-31
+    modified_date: 2011-3-4
+    abstractaccount_ptr: 6
+
+- model: core.Transaction
+  pk: 1
+  fields:
+    date: 2010-12-31
+    description: My first salary
+    wealth: 1
+    type: 2  # deposit
+
+- model: core.AccountSplit
+  pk: 1
+  fields:
+    date: 2010-12-31
+    amount: 500
+    wealth: 1
+    account: 1
+    transaction: 1
+    type: 2  # deposit
+
+- model: core.CategorySplit
+  pk: 1
+  fields:
+    date: 2010-12-31
+    amount: -500
+    wealth: 1
+    category: 3
+    transaction: 1
+    type: 2  # deposit
+
+- model: core.TagSplit
+  pk: 1
+  fields:
+    date: 2010-12-31
+    wealth: 1
+    transaction: 1
+    tag: 6
+    amount: 500
+
+- model: core.Transaction
+  pk: 2
+  fields:
+    date: 2011-1-4
+    description: End of year bonus
+    wealth: 1
+    type: 2  # deposit
+
+- model: core.AccountSplit
+  pk: 2
+  fields:
+    date: 2011-1-4
+    amount: 100
+    wealth: 1
+    account: 2
+    transaction: 2
+    type: 2  # deposit
+
+- model: core.CategorySplit
+  pk: 2
+  fields:
+    date: 2011-1-4
+    amount: -100
+    wealth: 1
+    category: 4
+    transaction: 2
+    type: 2  # deposit
+
+- model: core.TagSplit
+  pk: 2
+  fields:
+    date: 2011-1-4
+    wealth: 1
+    transaction: 2
+    tag: 6
+    amount: 100
+
+- model: core.Transaction
+  pk: 3
+  fields:
+    date: 2011-3-4
+    description: Candies
+    wealth: 1
+    type: 1  # withdrawal
+
+- model: core.AccountSplit
+  pk: 3
+  fields:
+    date: 2011-3-4
+    amount: -67
+    wealth: 1
+    account: 1
+    transaction: 3
+    type: 1  # withdrawal
+
+- model: core.CategorySplit
+  pk: 3
+  fields:
+    date: 2011-3-4
+    amount: 67
+    wealth: 1
+    category: 5
+    transaction: 3
+    type: 1  # withdrawal
+
+- model: core.TagSplit
+  pk: 3
+  fields:
+    date: 2011-3-4
+    wealth: 1
+    transaction: 3
+    tag: 6
+    amount: -67
+
+- model: core.Transaction
+  pk: 4
+  fields:
+    date: 2011-5-1
+    description: Retirement fund
+    wealth: 1
+    type: 3  # transfer
+
+- model: core.AccountSplit
+  pk: 4
+  fields:
+    date: 2011-5-1
+    amount: -120
+    wealth: 1
+    account: 1
+    transaction: 4
+    type: 3  # transfer
+
+- model: core.AccountSplit
+  pk: 5
+  fields:
+    date: 2011-5-1
+    amount: 120
+    wealth: 1
+    account: 2
+    transaction: 4
+    type: 3  # transfer

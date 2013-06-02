@@ -1,0 +1,19 @@
+- model: fx.Currency
+  pk: 4
+  fields:
+    symbol: EUR
+
+- model: auth.user
+  pk: 5
+  fields:
+    first_name: Mary
+    last_name: Smirnova
+    username: mary
+    password: 'sha1$19417$cef3369df9fa54e08f9b2a12ad7f329f46396024'
+
+- model: core.Wealth
+  pk: 6
+  fields:
+    currency: 4
+    user: 5
+    balance: 0

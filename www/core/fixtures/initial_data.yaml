@@ -1,0 +1,5 @@
+- model: sites.site
+  pk: 1
+  fields:
+    domain: fruitcoins.com
+    name: fruitcoins.com

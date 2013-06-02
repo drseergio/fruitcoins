@@ -1,0 +1,27 @@
+- model: core.AbstractAccount
+  pk: 70
+  fields:
+    name: Life
+    balance: 0
+    wealth: 3
+
+- model: core.Tag
+  pk: 70
+  fields:
+    created_date: 2010-12-31
+    modified_date: 2011-3-4
+    abstractaccount_ptr: 70
+
+- model: core.AbstractAccount
+  pk: 71
+  fields:
+    name: Death
+    balance: 0
+    wealth: 6
+
+- model: core.Tag
+  pk: 71
+  fields:
+    created_date: 2010-12-31
+    modified_date: 2011-3-4
+    abstractaccount_ptr: 71

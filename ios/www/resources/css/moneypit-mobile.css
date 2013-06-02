@@ -1,0 +1,26 @@
+.account-name {
+    float:left;
+    width:100%;
+    font-size:90%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.account-info {
+    float:left;
+    width:100%;
+    color:#666666;
+    font-size:80%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.account-balance {
+    float:right;
+    font-size:80%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

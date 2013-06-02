@@ -1,0 +1,85 @@
+{% extends "mobile-base.html" %}
+{% load static %}
+{% block title %}fruitcoins{% endblock %}
+
+{% block css %}<link rel="stylesheet" type="text/css" href="{% get_static_prefix %}touch/touch-charts-full.css">
+    <link rel="stylesheet" type="text/css" href="{% get_static_prefix %}resources/css/moneypit-mobile.css">{% endblock %}
+
+{% block extra-js %}
+    {% if debug %}<script type="text/javascript" src="{% get_static_prefix %}touch/touch-charts.js"></script>
+    <script type="text/javascript" src="{% get_static_prefix %}mobile-js/view/TabBarMvc.js"></script>
+    <script type="text/javascript" src="{% get_static_prefix %}mobile-js/view/account/List.js"></script>
+    <script type="text/javascript" src="{% get_static_prefix %}mobile-js/view/report/NetWorth.js"></script>
+    <script type="text/javascript" src="{% get_static_prefix %}mobile-js/view/report/NetIncome.js"></script>
+    <script type="text/javascript" src="{% get_static_prefix %}mobile-js/view/report/Expenses.js"></script>
+    <script type="text/javascript" src="{% get_static_prefix %}mobile-js/view/report/ExpenseBreakdown.js"></script>
+    <script type="text/javascript" src="{% get_static_prefix %}mobile-js/view/report/Incomes.js"></script>
+    <script type="text/javascript" src="{% get_static_prefix %}mobile-js/view/report/IncomeBreakdown.js"></script>
+    <script type="text/javascript" src="{% get_static_prefix %}mobile-js/view/report/Period.js"></script>
+    <script type="text/javascript" src="{% get_static_prefix %}mobile-js/view/receipt/Receipt.js"></script>
+    <script type="text/javascript" src="{% get_static_prefix %}mobile-js/view/transaction/List.js"></script>
+    <script type="text/javascript" src="{% get_static_prefix %}mobile-js/model/Account.js"></script>
+    <script type="text/javascript" src="{% get_static_prefix %}mobile-js/model/NetWorth.js"></script>
+    <script type="text/javascript" src="{% get_static_prefix %}mobile-js/model/Expenses.js"></script>
+    <script type="text/javascript" src="{% get_static_prefix %}mobile-js/model/ExpenseBreakdown.js"></script>
+    <script type="text/javascript" src="{% get_static_prefix %}mobile-js/model/Incomes.js"></script>
+    <script type="text/javascript" src="{% get_static_prefix %}mobile-js/model/IncomeBreakdown.js"></script>
+    <script type="text/javascript" src="{% get_static_prefix %}mobile-js/model/NetIncome.js"></script>
+    <script type="text/javascript" src="{% get_static_prefix %}mobile-js/model/Transaction.js"></script>
+    <script type="text/javascript" src="{% get_static_prefix %}mobile-js/store/Account.js"></script>
+    <script type="text/javascript" src="{% get_static_prefix %}mobile-js/store/NetWorth.js"></script>
+    <script type="text/javascript" src="{% get_static_prefix %}mobile-js/store/Expenses.js"></script>
+    <script type="text/javascript" src="{% get_static_prefix %}mobile-js/store/ExpenseBreakdown.js"></script>
+    <script type="text/javascript" src="{% get_static_prefix %}mobile-js/store/Incomes.js"></script>
+    <script type="text/javascript" src="{% get_static_prefix %}mobile-js/store/IncomeBreakdown.js"></script>
+    <script type="text/javascript" src="{% get_static_prefix %}mobile-js/store/NetIncome.js"></script>
+    <script type="text/javascript" src="{% get_static_prefix %}mobile-js/store/Transaction.js"></script>
+    <script type="text/javascript" src="{% get_static_prefix %}mobile-js/controller/Account.js"></script>
+    <script type="text/javascript" src="{% get_static_prefix %}mobile-js/controller/NetWorth.js"></script>
+    <script type="text/javascript" src="{% get_static_prefix %}mobile-js/controller/NetIncome.js"></script>
+    <script type="text/javascript" src="{% get_static_prefix %}mobile-js/controller/Expenses.js"></script>
+    <script type="text/javascript" src="{% get_static_prefix %}mobile-js/controller/ExpenseBreakdown.js"></script>
+    <script type="text/javascript" src="{% get_static_prefix %}mobile-js/controller/Incomes.js"></script>
+    <script type="text/javascript" src="{% get_static_prefix %}mobile-js/controller/IncomeBreakdown.js"></script>
+    <script type="text/javascript" src="{% get_static_prefix %}mobile-js/controller/Period.js"></script>
+    <script type="text/javascript" src="{% get_static_prefix %}mobile-js/controller/Receipt.js"></script>
+    <script type="text/javascript" src="{% get_static_prefix %}mobile-js/controller/User.js"></script>
+    <script type="text/javascript" src="{% get_static_prefix %}mobile-js/controller/Transaction.js"></script>
+    <script type="text/javascript" src="{% get_static_prefix %}mobile-js/routes.js"></script>{% else %}<script type="text/javascript" src="{% get_static_prefix %}mobile-js/app-all.js"></script>{% endif %}{% endblock %}
+
+{% block head-js %}
+      var wealthCurrency = '{{ currency.symbol }}';
+      var wealthCurrencyId = '{{ currency.id }}';
+      var social = {{ social|lower }};
+
+      Ext.regApplication({
+        name  : 'MoneypitMobile',
+        defaultUrl: 'Account/index',
+        launch: function() {
+          this.viewport = new Ext.Panel({
+            fullscreen: true,
+            layout: 'card',
+            cardSwitchAnimation: 'slide',
+            dockedItems: [{
+              xtype: 'TabBarMvc',
+              items: [{
+                text: 'Accounts',
+                iconCls: 'list',
+                route: 'Account/index'
+              }, {
+                text: 'Reports',
+                iconCls: 'chart1',
+                route: 'Period/index'
+              }, {
+                text: 'Receipts',
+                iconCls: 'card1',
+                route: 'Receipt/index'
+              }, {
+                text: 'Logout',
+                iconCls: 'lock_open',
+                route: 'User/logout'
+              }]
+            }]
+          });
+        }
+    });{% endblock %}

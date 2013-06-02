@@ -1,0 +1,20 @@
+- model: core.Budget
+  pk: 30
+  fields:
+    name: 'Victor'
+    year: 2012
+    wealth: 3
+
+- model: core.Budget
+  pk: 31
+  fields:
+    name: 'Maggot'
+    year: 2011
+    wealth: 3
+
+- model: core.Budget
+  pk: 33
+  fields:
+    name: 'Victoria'
+    year: 2011
+    wealth: 6

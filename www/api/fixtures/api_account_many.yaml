@@ -1,0 +1,108 @@
+- model: core.AbstractAccount
+  pk: 1000
+  fields:
+    name: 'UBS checking'
+    balance: 0
+    wealth: 3
+
+- model: core.Account
+  pk: 1000
+  fields:
+    abstractaccount_ptr: 1000
+    opening_balance: 0
+    type: 2 # checking
+    opened_date: 2008-01-01
+    modified_date: 2011-01-01
+    total_deposits: 0
+    total_withdrawals: 0
+    currency: 1
+
+- model: core.AbstractAccount
+  pk: 1001
+  fields:
+    name: 'UBS credit'
+    balance: 0
+    wealth: 3
+
+- model: core.Account
+  pk: 1001
+  fields:
+    abstractaccount_ptr: 1001
+    type: 4 # liability
+    opened_date: 2009-01-01
+    modified_date: 2011-04-01
+    total_deposits: 0
+    total_withdrawals: 0
+    currency: 1
+
+- model: core.AbstractAccount
+  pk: 1002
+  fields:
+    name: 'Loan'
+    balance: 0
+    wealth: 3
+
+- model: core.Account
+  pk: 1002
+  fields:
+    abstractaccount_ptr: 1002
+    type: 4 # credit
+    opened_date: 2009-01-01
+    modified_date: 2011-04-01
+    total_deposits: 0
+    total_withdrawals: 0
+    currency: 1
+
+- model: core.AbstractAccount
+  pk: 1003
+  fields:
+    name: 'Lynns apartment'
+    balance: 0
+    wealth: 3
+
+- model: core.Account
+  pk: 1003
+  fields:
+    abstractaccount_ptr: 1003
+    type: 6 # asset
+    opened_date: 2008-01-01
+    modified_date: 2011-01-01
+    total_deposits: 0
+    total_withdrawals: 0
+    currency: 1
+
+- model: core.AbstractAccount
+  pk: 1004
+  fields:
+    name: 'American Express'
+    balance: 0
+    wealth: 3
+
+- model: core.Account
+  pk: 1004
+  fields:
+    abstractaccount_ptr: 1004
+    type: 4 # credit
+    opened_date: 2009-01-01
+    modified_date: 2011-04-01
+    total_deposits: 0
+    total_withdrawals: 0
+    currency: 1
+
+- model: core.AbstractAccount
+  pk: 1005
+  fields:
+    name: 'RBS saving'
+    balance: 0
+    wealth: 6
+
+- model: core.Account
+  pk: 1005
+  fields:
+    abstractaccount_ptr: 1005
+    type: 2 # checking
+    opened_date: 2009-01-01
+    modified_date: 2011-04-01
+    total_deposits: 0
+    total_withdrawals: 0
+    currency: 4

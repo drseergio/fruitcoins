@@ -1,0 +1,193 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Welcome to fruitcoins{% endblock %}
+
+{% if next %}
+{% block head-js %}
+      var next = '{{ next }}';
+      var controllers = [ 'Currency' ];
+      var invite = {{ invite|lower }};
+
+      function startMoneypit() {
+        function socialLoginHandler(button, event) {
+          var system = button.id.split("-").pop();
+          location.href = '/login/' + system;
+        }
+
+        function registerHandler() {
+          location.href = '/user/register';
+        }
+
+        function resetHandler() {
+          location.href = '/user/reset';
+        }
+
+        function loginHandler() {
+          var windowLogin = Ext.getCmp('login');
+          var form = Ext.getCmp('login-form').getForm();
+
+          if (form.isValid()) {
+            windowLogin.body.mask();
+          }
+
+          form.submit({
+            success: function() {
+              if (next != "") {
+                location.href = next;
+              } else {
+                location.href = '/';
+              }
+            },
+            failure: function() {
+              windowLogin.body.unmask();
+              form.reset();
+              Ext.getCmp('login-form-username').markInvalid('Invalid credentials');
+              Ext.getCmp('login-form-username').focus();
+            }
+          });
+        }
+
+        var window = Ext.create('Ext.Window', {
+          id       : 'login',
+          layout   : {
+            type   : 'table',
+            columns: 2
+          },
+          closable : false,
+          draggable: false,
+          resizable: false,
+          width    : 425,
+          plain    : true,
+          border   : false,
+          items    : [{
+              colspan: 2,{% if invite %}
+              layout: 'border',
+              border : false,
+              width  : 415,
+              height : 285,
+              items: [{
+                  border : false,
+                  region: 'north',
+                  height: 20,
+                  html  : '<div class="invite-text"><a href="/inviteme">we are currently invite-only, request membership by clicking this bar</a></div>',
+                }, {
+                  border : false,
+                  region: 'center',
+                  html   : '<iframe width="420" height="315" src="https://www.youtube.com/embed/hcoB9FCHQXc" frameborder="0" allowfullscreen></iframe>',
+              }]{% else %}
+              width  : 415,
+              height : 265,
+              border : false,
+              html   : '<iframe width="420" height="315" src="https://www.youtube.com/embed/hcoB9FCHQXc" frameborder="0" allowfullscreen></iframe>',{% endif %}
+            }, {
+              id           : 'login-form',
+              url          : '/api/user/login',
+              xtype        : 'form',
+              width        : 245,
+              height       : 100,
+              border       : false,
+              bodyCls      : 'login-form',
+              buttonAlign  : 'left',
+
+              fieldDefaults: {
+                msgTarget : 'side',
+                labelWidth: 75
+              },
+              defaults     : {
+                anchor: '100%'
+              },
+
+              items        : [{
+                  id        : 'login-form-username',
+                  xtype     : 'textfield',
+                  fieldLabel: 'username',
+                  name      : 'username',
+                  labelSeparator: '',
+                  labelAlign: 'left',
+                  allowBlank: false,
+                }, {
+                  id        : 'login-form-password',
+                  xtype     : 'textfield',
+                  fieldLabel: 'password',
+                  labelSeparator: '',
+                  inputType : 'password',
+                  labelAlign: 'left',
+                  name      : 'password',
+                  allowBlank: false,
+                  listeners : {
+                    specialkey: function(field, e) {
+                      if (e.getKey() == e.ENTER) {
+                        loginHandler();
+                      }
+                    }
+                  }
+              }],
+
+              buttons      : [{
+                  text   : 'Sign-in',
+                  margin : '6 1 0 1',
+                  handler: loginHandler
+                }, {
+                  text   : 'Join',
+                  margin : '6 1 0 1',
+                  disabled: invite,
+                  handler: registerHandler
+                }, {
+                  text   : 'Forgot?',
+                  margin : '6 1 0 1',
+                  handler: resetHandler
+              }],
+            }, {
+              id    : 'login.social',
+              width : 170,
+              height: 100,
+              border: false,
+              layout: 'border',
+              items : [{
+                  region: 'north',
+                  border: false,
+                  height: 20,
+                  html  : '<span style="font-family: \'Droid Sans\'; font-weight: 500">or...</span>',
+                  cls   : 'login-social-north',
+                }, {
+                  region: 'center',
+                  height: 80,
+                  border: false,
+                  layout: {
+                    type : 'hbox',
+                    pack : 'start',
+                    align: 'stretch'
+                  },
+                  items : [{
+                      id     : 'login-google',
+                      xtype  : 'button',
+                      flex   : 1,
+                      cls    : 'icons-google',
+                      margin : '6 1 6 1',
+                      handler: socialLoginHandler
+                    }, {
+                      id      : 'login-linkedin',
+                      xtype   : 'button',
+                      flex    : 1,
+                      cls     : 'login-social-linkedin',
+                      margin  : '6 1 6 1',
+                      handler : socialLoginHandler,
+                    }, {
+                      id      : 'login-facebook',
+                      xtype   : 'button',
+                      flex    : 1,
+                      cls     : 'login-social-facebook',
+                      margin  : '6 1 6 1',
+                      handler : socialLoginHandler,
+                  }]
+              }]
+          }]
+        });
+
+        Ext.getCmp('login-form-username').focus(false, 800);
+        window.show();
+      }{% endblock %}
+{% endif %}
+
+{% block body %}{% csrf_token %}{% endblock %}

@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}fruitcoins{% endblock %}
+
+{% block head-js %}
+      var wealthCurrency = '{{ currency.symbol }}';
+      var wealthCurrencyId = '{{ currency.id }}';
+      var social = {{ social|lower }};
+      var controllers = [
+          'Account',
+          'Budget',
+          'Category',
+          'Currency',
+          'Expenses',
+          'ExpenseBreakdown',
+          'Incomes',
+          'IncomeBreakdown',
+          'Liberation',
+          'NetIncome',
+          'NetWorth',
+          'Receipt',
+          'Report',
+          'Tag',
+          'Transaction',
+          'User' ];
+
+      function startMoneypit() {
+        Ext.util.Format.currencySign = '';
+        Ext.create('Ext.container.Container', {
+          renderTo: 'application',
+          width   : 800,
+          border  : false,
+          height  : 700,
+          layout  : 'border',
+          items   : [{
+              id         : 'app-west',
+              region     : 'west',
+              layout     : 'accordion',
+              split      : true,
+              border     : false,
+              minSize    : 150,
+              maxSize    : 400,
+              width      : 170,
+              items      : [{
+                  id    : 'app-west-accounts',
+                  title : 'Accounts',
+                  layout: 'fit',
+                  hideCollapseTool: true,
+                  items : [{
+                    xtype: 'accountlist',
+                  }]
+                }, {
+                  id: 'app-west-tags',
+                  title: 'Tags',
+                  layout: 'fit',
+                  hideCollapseTool: true,
+                  items : [{
+                    xtype: 'taglist',
+                  }]
+                }, {
+                  id    : 'app-west-receipts',
+                  title : 'Receipts',
+                  layout: 'fit',
+                  hideCollapseTool: true,
+                  items : [{
+                    xtype: 'receiptlist'
+                  }]
+                }, {
+                  id    : 'app-west-budget',
+                  title : 'Budget monitor',
+                  layout: 'fit',
+                  hideCollapseTool: true,
+                  disabled: true,
+                  items : [{
+                    xtype: 'budgetmonitor'
+                  }]
+              }]
+            }, {
+              id       : 'app-center',
+              xtype    : 'tabpanel',
+              region   : 'center',
+              layout   : 'fit',
+              border   : false,
+              plain:true,
+              activeTab: 'app-center-home',
+              items    : [{
+                  id    : 'app-center-transactions',
+                  title : 'Transactions',
+                  layout: 'border',
+                  border: false,
+                  items : [{
+                      xtype : 'summarypanel',
+                      region: 'north',
+                    }, {
+                      xtype : 'transactionlist',
+                      region: 'center'
+                  }]
+                }, {
+                  id   : 'app-center-budgets',
+                  title: 'Budgets',
+                  border: false,
+                  layout: 'border',
+                  items : [{
+                      xtype : 'budgetsummary',
+                      region: 'north',
+                    }, {
+                      xtype : 'budgetlist',
+                      region: 'center'
+                  }]
+                }, {
+                  id    : 'app-center-categories',
+                  title : 'Categories',
+                  layout: 'fit',
+                  border: false,
+                  items : [{
+                    xtype: 'categorytree',
+                  }]
+                }, {
+                  id   : 'app-center-reports',
+                  title: 'Reports',
+                  border: false,
+                  layout: 'fit',
+                  items : [{
+                    xtype: 'reports',
+                  }]
+                }, {
+                  id    : 'app-center-liberation',
+                  title : 'Liberation',
+                  border: false,
+                  layout: 'border',
+                  items : [{
+                      xtype : 'liberationsummary',
+                      region: 'north'
+                    }, {
+                      xtype: 'liberation',
+                      region: 'center'
+                  }]
+              }]
+          }]
+        });
+      }{% endblock %}

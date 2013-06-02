@@ -1,0 +1,51 @@
+- model: core.BudgetLine
+  pk: 50
+  fields:
+    category: 2000
+    amount: 10
+    total_amount: 520
+    type: 1
+    period: 1 # weekly
+    balance: 0
+    budget: 31
+    year: 2011
+    wealth: 3
+
+- model: core.BudgetLine
+  pk: 51
+  fields:
+    category: 2001
+    amount: 5
+    total_amount: 60
+    type: 1
+    period: 2 # monthly
+    balance: 0
+    budget: 31
+    year: 2011
+    wealth: 3
+
+- model: core.BudgetLine
+  pk: 52
+  fields:
+    category: 2002
+    amount: 10
+    total_amount: 40
+    type: 1
+    period: 3 # quarterly
+    balance: 0
+    budget: 31
+    year: 2011
+    wealth: 3
+
+- model: core.BudgetLine
+  pk: 53
+  fields:
+    category: 2005
+    amount: 200
+    total_amount: 200
+    type: 2
+    period: 4 # yearly
+    balance: 0
+    budget: 33
+    year: 2011
+    wealth: 6

@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Select currency{% endblock %}
+
+{% block head-js %}
+      var controllers = [ 'Currency' ];
+      var currency = {{ currency }};
+      function startMoneypit() {
+        function saveHandler() {
+          var form = Ext.getCmp('currency.form').getForm();
+          var window = Ext.getCmp('currency');
+          if (form.isValid()) {
+            window.body.mask();
+          }
+          form.submit({
+            success: function() {
+              location.href = '/';
+            },
+            failure: function() {
+              window.body.unmask();
+            }
+          });
+        }
+
+        var window = Ext.create('Ext.Window', {
+          id       : 'currency',
+          layout   : 'border',
+          closable : false,
+          draggable: false,
+          resizable: false,
+          width    : 320,
+          height   : 170,
+          plain    : true,
+          border   : false,
+          items    : [{
+              region : 'north',
+              html   : '<span style="margin-top: 5px; padding: 5px; font-size: 1.2em; font-family: \'Droid Sans\'">We are almost there, choose your main currency...</span>',
+              border : false,
+              height : 50,
+            }, {
+              region       : 'center',
+              id           : 'currency.form',
+              url          : '/api/user/currency',
+              xtype        : 'form',
+              border       : false,
+              buttonAlign  : 'right',
+
+              items        : [{
+                  id           : 'currency-form-username',
+                  xtype     : 'textfield',
+                  fieldLabel: 'username (optional)',
+                  name      : 'username',
+                  labelSeparator: '',
+                  labelAlign: 'right',
+                  listeners : {
+                    specialkey: function(field, e) {
+                      if (e.getKey() == e.ENTER) {
+                        saveHandler();
+                      }
+                    }
+                  }
+                }, {
+                  xtype        : 'fxcombobox',
+                  fieldLabel   : 'main currency',
+                  name         : 'currency',
+                  anchor       : '95%',
+                  valueField   : 'id',
+                  displayField : 'name',
+                  triggerAction: 'all',
+                  hiddenName   : 'currency',
+                  editable     : false,
+                  labelSeparator: '',
+                  labelAlign: 'right',
+                  allowBlank   : false,
+                  value        : currency
+              }],
+
+              buttons      : [{
+                  text   : 'Continue',
+                  margin : '8 2 0 0',
+                  handler: saveHandler
+              }],
+          }]
+        });
+
+        Ext.getCmp('currency-form-username').focus(false, 800);
+        window.show();
+      }{% endblock %}
+
+{% block body %}{% csrf_token %}{% endblock %}

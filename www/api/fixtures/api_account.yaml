@@ -1,0 +1,37 @@
+- model: core.AbstractAccount
+  pk: 1000
+  fields:
+    name: 'UBS checking'
+    balance: 0
+    wealth: 3
+
+- model: core.Account
+  pk: 1000
+  fields:
+    abstractaccount_ptr: 1000
+    opening_balance: 0
+    type: 2 # checking
+    opened_date: 2008-01-01
+    modified_date: 2011-01-01
+    total_deposits: 0
+    total_withdrawals: 0
+    currency: 1
+
+- model: core.AbstractAccount
+  pk: 1001
+  fields:
+    name: 'RBS saving'
+    balance: 0
+    wealth: 6
+
+- model: core.Account
+  pk: 1001
+  fields:
+    abstractaccount_ptr: 1001
+    opening_balance: 0
+    type: 1 # saving
+    opened_date: 2009-01-01
+    modified_date: 2011-04-01
+    total_deposits: 0
+    total_withdrawals: 0
+    currency: 4

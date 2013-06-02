@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Reset password{% endblock %}
+
+{% block head-js %}
+      var controllers = [];
+      function startMoneypit() {
+        function loginHandler() {
+          location.href = '/user/login';
+        }
+
+        function resetHandler() {
+          var form = Ext.getCmp('register.form').getForm();
+          var window = Ext.getCmp('register');
+          if (form.isValid()) {
+            window.body.mask();
+          }
+          form.submit({
+            success: function() {
+              location.href = '/user/login';
+            },
+            failure: function() {
+              window.body.unmask();
+            }
+          });
+        }
+
+        var window = Ext.create('Ext.Window', {
+          id       : 'register',
+          layout   : 'border',
+          closable : false,
+          draggable: false,
+          resizable: false,
+          width    : 320,
+          height   : 110,
+          plain    : true,
+          border   : false,
+          items    : [{
+              region : 'north',
+              html   : '<span style="margin-top: 5px; padding: 5px; font-size: 1.2em; font-family: \'Droid Sans\'">Send new password by e-mail</span>',
+              border : false,
+              height : 30,
+            }, {
+              id           : 'register.form',
+              url          : '/api/user/reset',
+              xtype        : 'form',
+              region       : 'center',
+              border       : false,
+              buttonAlign  : 'right',
+
+              items        : [{
+                  id        : 'reset-form-email',
+                  xtype     : 'textfield',
+                  vtype     : 'email',
+                  fieldLabel: 'e-mail',
+                  name      : 'email',
+                  labelSeparator: '',
+                  allowBlank: false,
+                  labelAlign: 'right',
+                  listeners : {
+                    specialkey: function(field, e) {
+                      if (e.getKey() == e.ENTER) {
+                        resetHandler();
+                      }
+                    }
+                  }
+              }],
+
+              buttons      : [{
+                  text   : 'Send password',
+                  margin : '8 2 0 0',
+	              handler: resetHandler
+                }, {
+                  text   : 'Sign-in',
+                  margin : '8 6 0 0',
+                  handler: loginHandler
+              }],
+          }]
+        });
+
+        Ext.getCmp('reset-form-email').focus(false, 800);
+        window.show();
+      }{% endblock %}
+
+{% block body %}{% csrf_token %}{% endblock %}
